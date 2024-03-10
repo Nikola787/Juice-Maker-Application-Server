@@ -5,6 +5,6 @@
 ## Technologies Used
 
 - **Spring Boot**: Utilized Spring Boot framework to create the backend of the application.
-- **JPA Repository**: Employed JPA Repository for easy interaction with the database.
+- **JPA Repository**: Employed JPA Repository for easy interaction with the MySQL database.
 - **API Key Security**: Implemented API key security to authenticate and authorize access to the API endpoints.
 
