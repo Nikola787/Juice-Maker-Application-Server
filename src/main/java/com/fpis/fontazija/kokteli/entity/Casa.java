@@ -2,6 +2,11 @@ package com.fpis.fontazija.kokteli.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Type;
+
 import java.util.Set;
 
 @Entity
@@ -14,9 +19,13 @@ public class Casa {
     private int id;
 
     @Column(name = "naziv")
+    @NotNull(message = "Value naziv case cannot be null")
+    @NotEmpty(message = "Value naziv case cannot be empty")
+    @Size(min = 2, max = 50)
     private String naziv;
 
     @Column(name = "slika")
+    @Lob
     private String slika;
 
     @OneToMany(mappedBy = "casa")

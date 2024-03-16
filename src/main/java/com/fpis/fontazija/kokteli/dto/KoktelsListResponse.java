@@ -1,4 +1,6 @@
-package com.fpis.fontazija.kokteli.response;
+package com.fpis.fontazija.kokteli.dto;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ public class KoktelsListResponse {
     private int idKoktela;
     private String nazivKoktela;
     private String nazivKategorije;
-    private String slikaCase;
+    private byte[] slikaCase;
     private String nazivCase;
     private List<List<String>> sastojci;
 
@@ -16,7 +18,7 @@ public class KoktelsListResponse {
         this.sastojci = new ArrayList<>();
     }
 
-    public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, String slikaCase, String nazivCase) {
+    public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, byte[] slikaCase, String nazivCase) {
         this.idKoktela = idKoktela;
         this.nazivKoktela = nazivKoktela;
         this.nazivKategorije = nazivKategorije;
@@ -25,7 +27,7 @@ public class KoktelsListResponse {
         this.sastojci = new ArrayList<>();
     }
 
-    public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, String slikaCase, String nazivCase, List<List<String>> sastojci) {
+    public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, byte[] slikaCase, String nazivCase, List<List<String>> sastojci) {
         this.idKoktela = idKoktela;
         this.nazivKoktela = nazivKoktela;
         this.nazivKategorije = nazivKategorije;
@@ -46,7 +48,7 @@ public class KoktelsListResponse {
         return nazivKategorije;
     }
 
-    public String getSlikaCase() {
+    public byte[] getSlikaCase() {
         return slikaCase;
     }
 
@@ -74,7 +76,7 @@ public class KoktelsListResponse {
         this.nazivKategorije = nazivKategorije;
     }
 
-    public void setSlikaCase(String slikaCase) {
+    public void setSlikaCase(byte[] slikaCase) {
         this.slikaCase = slikaCase;
     }
 

@@ -1,6 +1,10 @@
 package com.fpis.fontazija.kokteli.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -20,9 +24,13 @@ public class KoktelSastojak {
     private Sastojak sastojak;
 
     @Column(name = "kolicina")
+    @Positive(message = "Value kolicina koktelSastojak must be greater than 0")
     private float kolicina;
 
     @Column(name = "merna_jedinica")
+    @NotNull(message = "Value mernaJedinica koktelSastojak cannot be null")
+    @NotEmpty(message = "Value mernaJedinica koktelSastojak cannot be empty")
+    @Size(min = 2, message = "Value mernaJedinica koktelSastojak must have minimum 2 character")
     private String mernaJedinica;
 
     public KoktelSastojak() {}

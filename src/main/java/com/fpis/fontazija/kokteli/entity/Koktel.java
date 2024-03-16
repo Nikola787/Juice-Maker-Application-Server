@@ -2,6 +2,10 @@ package com.fpis.fontazija.kokteli.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
@@ -16,20 +20,33 @@ public class Koktel {
     private int id;
 
     @Column(name = "naziv")
+    @NotNull(message = "Value naziv Koktela cannot be null")
+    @NotEmpty(message = "Value naziv Koktela cannot be empty")
+    @Size(min = 2, max = 50, message = "Value naziv Koktela must be between 2 and 50 characters long")
     private String naziv;
 
     @Column(name = "opis")
+    @NotNull(message = "Value opis koktela cannot be null")
+    @NotEmpty(message = "Value opis koktela cannot be empty")
+    @Size(min = 50, max = 200, message = "Value opis must have more than 50 characters")
     private String opis;
 
     @Column(name = "nacin_pripreme")
+    @NotNull(message = "Value nacinPripreme koktela cannot be null")
+    @NotEmpty(message = "Value nacinPripreme koktela cannot be empty")
+    @Size(min = 50, max = 200, message = "Value nacinPripreme koktela must have more than 50 characters")
     private String nacinPripreme;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "casa_id")
+    @NotNull
+    @Valid
     private Casa casa;
 
     @ManyToOne()
     @JoinColumn(name = "kategorija_id")
+    @NotNull
+    @Valid
     private Kategorija kategorija;
 
     @OneToMany(mappedBy = "koktel")

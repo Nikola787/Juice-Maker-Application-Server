@@ -1,4 +1,4 @@
-package com.fpis.fontazija.kokteli.response;
+package com.fpis.fontazija.kokteli.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ public class KoktelDetailsResponse {
 
     private int koktelId;
     // - na osnovu Id koktela GET koktel(nacinPripreme), niz(sastojci), niz(koktelSastojak(kolicina,mernaJedinica))
+    private String naziv;
+    private String opis;
     private String nacinPripreme;
     private List<List<String>> sastojci;
 
@@ -18,6 +20,30 @@ public class KoktelDetailsResponse {
         this.koktelId = koktelId;
         this.nacinPripreme = nacinPripreme;
         this.sastojci = new ArrayList<>();
+    }
+
+    public KoktelDetailsResponse(int koktelId, String naziv, String opis, String nacinPripreme, List<List<String>> sastojci) {
+        this.koktelId = koktelId;
+        this.naziv = naziv;
+        this.opis = opis;
+        this.nacinPripreme = nacinPripreme;
+        this.sastojci = sastojci;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public int getKoktelId() {

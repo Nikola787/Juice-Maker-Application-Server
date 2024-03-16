@@ -2,6 +2,9 @@ package com.fpis.fontazija.kokteli.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
@@ -14,6 +17,9 @@ public class Sastojak {
     private int id;
 
     @Column(name = "naziv")
+    @NotNull
+    @NotEmpty
+    @Size(min = 2)
     private String naziv;
 
     @OneToMany(mappedBy = "sastojak")
