@@ -59,6 +59,8 @@ public class KoktelController {
 
     @PostMapping("/koktels-filtered")
     public ResponseEntity<List<KoktelsListResponse>> getKoktelsFiltered(@RequestBody KoktelFilterRequest koktelFilterRequest) {
+        // TODO: fix query from method below for better data retrivial from the database
+//        List<Object[]> arr = koktelService.getKoktelsByFilters(koktelFilterRequest);
         List<KoktelsListResponse> arr = koktelSastojakService.getKoktelsByFilters(koktelFilterRequest);
         return new ResponseEntity<>(arr, HttpStatus.OK);
     }

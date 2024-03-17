@@ -95,6 +95,7 @@ public class KoktelSastojakService implements IKoktelSastojakService{
         String search = koktelFilterRequest.getSearch();
         Set<String> kategorije = koktelFilterRequest.getKategorije();
         Set<String> sastojci = koktelFilterRequest.getSastojci();
+
         List<KoktelsListResponse> koktelsListResponses = getAllKoktelsList();
 
         List<KoktelsListResponse> res = new ArrayList<>();
@@ -102,7 +103,7 @@ public class KoktelSastojakService implements IKoktelSastojakService{
         for(int i = 0; i < koktelsListResponses.size(); i++){
 
             if (kategorije.contains(koktelsListResponses.get(i).getNazivKategorije()) || kategorije.isEmpty()) {
-                if (search == null || koktelsListResponses.get(i).getNazivKoktela().toLowerCase().startsWith(search.toLowerCase())) {
+                if (search == null || search.isEmpty() || koktelsListResponses.get(i).getNazivKoktela().toLowerCase().startsWith(search.toLowerCase())) {
 
                     boolean sadrziTrenutni = false;
                     for (String naziv : sastojci) {
@@ -126,7 +127,7 @@ public class KoktelSastojakService implements IKoktelSastojakService{
             boolean sadrziTrenutni = true;
             if (kategorije.contains(koktelsListResponses.get(i).getNazivKategorije()) || kategorije.isEmpty()) {
 
-                if (search == null || koktelsListResponses.get(i).getNazivKoktela().toLowerCase().startsWith(search.toLowerCase())) {
+                if (search == null || search.isEmpty() || koktelsListResponses.get(i).getNazivKoktela().toLowerCase().startsWith(search.toLowerCase())) {
 
                     for (String naziv : sastojci) {
                         sadrziTrenutni = false;

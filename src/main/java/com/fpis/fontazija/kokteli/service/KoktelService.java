@@ -1,6 +1,8 @@
 package com.fpis.fontazija.kokteli.service;
 
 import com.fpis.fontazija.kokteli.conversion.CustomMultipartFile;
+import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
+import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
 import com.fpis.fontazija.kokteli.entity.*;
 import com.fpis.fontazija.kokteli.exceptions.ObjectNotValidException;
 import com.fpis.fontazija.kokteli.repository.KategorijaRepository;
@@ -8,6 +10,7 @@ import com.fpis.fontazija.kokteli.repository.KoktelRepository;
 import com.fpis.fontazija.kokteli.repository.KoktelSastojakRepository;
 import com.fpis.fontazija.kokteli.repository.SastojakRepository;
 import com.fpis.fontazija.kokteli.dto.KoktelCreationRequest;
+import com.fpis.fontazija.kokteli.specification.KoktelSpecifications;
 import com.fpis.fontazija.kokteli.validators.ObjectsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +112,18 @@ public class KoktelService implements IKoktelService{
         }
 
         return "Successfully saved entities!";
+    }
+
+//    KoktelSpecifications specifications = new KoktelSpecifications(
+//            new ArrayList<>(koktelFilterRequest.getKategorije()),
+//            new ArrayList<>(koktelFilterRequest.getSastojci()),
+//            koktelFilterRequest.getSearch()
+//    );
+
+    @Override
+    public List<Object[]> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
+        List<Object[]> lista = koktelRepository.findKoktelsWithFilters(koktelFilterRequest.getSastojci(), koktelFilterRequest.getKategorije(), koktelFilterRequest.getSearch());
+        return lista;
     }
 
 
