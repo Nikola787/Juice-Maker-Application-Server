@@ -29,36 +29,32 @@ public class KoktelController {
         this.koktelSastojakService = koktelSastojakService;
     }
 
-    @GetMapping("/test")
-    public String testMetoda(@RequestParam("test") String test){
-        return test;
-    }
-
     @GetMapping("/koktel/{koktelId}")
     public ResponseEntity<KoktelDetailsResponse> getKoktelDetails(@PathVariable int koktelId) {
-        KoktelDetailsResponse koktelDetailsResponse = koktelSastojakService.findKoktelsById(koktelId);
-        return new ResponseEntity<>(koktelDetailsResponse, HttpStatus.OK);
+        return new ResponseEntity<>(
+                koktelSastojakService.findKoktelsById(koktelId),
+                HttpStatus.OK);
     }
 
     @GetMapping("/koktels-list")
     public ResponseEntity<List<KoktelsListResponse>> getKoktelsList() {
-        List<KoktelsListResponse> arr = koktelSastojakService.getAllKoktelsList();
-        return new ResponseEntity<>(arr, HttpStatus.OK);
+        return new ResponseEntity<>(
+                koktelSastojakService.getAllKoktelsList(),
+                HttpStatus.OK);
     }
-
 
     @PostMapping("/add/new-koktel")
     public ResponseEntity<String> addNewKoktel(@RequestBody KoktelCreationRequest koktelCreationRequest) {
-        String response = koktelService.addNewKoktelCasaKoktelSastojciSastojci(koktelCreationRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(
+                koktelService.addNewKoktelCasaKoktelSastojciSastojci(koktelCreationRequest),
+                HttpStatus.OK);
     }
 
     @PostMapping("/koktels-filtered")
     public ResponseEntity<List<KoktelsListResponse>> getKoktelsFiltered(@RequestBody KoktelFilterRequest koktelFilterRequest) {
-        // TODO: fix query from method below for better data retrivial from the database
-        List<KoktelsListResponse> arr = koktelService.getKoktelsByFilters(koktelFilterRequest);
-//        List<KoktelsListResponse> arr = koktelSastojakService.getKoktelsByFilters(koktelFilterRequest);
-        return new ResponseEntity<>(arr, HttpStatus.OK);
+        return new ResponseEntity<>(
+                koktelService.getKoktelsByFilters(koktelFilterRequest),
+                HttpStatus.OK);
     }
 
 

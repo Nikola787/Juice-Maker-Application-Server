@@ -19,7 +19,7 @@ public class Sastojak {
     @Column(name = "naziv")
     @NotNull
     @NotEmpty
-    @Size(min = 2)
+    @Size(min = 2, message = "Naziv sastojka must be at least 2 characters long")
     private String naziv;
 
     @OneToMany(mappedBy = "sastojak")

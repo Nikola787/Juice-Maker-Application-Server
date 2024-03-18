@@ -21,7 +21,7 @@ public class Casa {
     @Column(name = "naziv")
     @NotNull(message = "Value naziv case cannot be null")
     @NotEmpty(message = "Value naziv case cannot be empty")
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 50, message = "Glass name must be between 2 and 50 characters long")
     private String naziv;
 
     @Column(name = "slika")

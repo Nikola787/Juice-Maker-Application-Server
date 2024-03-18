@@ -16,4 +16,6 @@ public interface IKoktelService {
     String addNewKoktelCasaKoktelSastojciSastojci(KoktelCreationRequest koktelCreationRequest);
 
     List<KoktelsListResponse> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest);
+
+    List<KoktelsListResponse> getAllKoktelsList();
 }

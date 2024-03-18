@@ -3,15 +3,13 @@ package com.fpis.fontazija.kokteli.service;
 import com.fpis.fontazija.kokteli.entity.*;
 import com.fpis.fontazija.kokteli.mapper.KoktelSastojak.KoktelSastojakMapper;
 import com.fpis.fontazija.kokteli.repository.KoktelSastojakRepository;
-import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
 import com.fpis.fontazija.kokteli.dto.KoktelDetailsResponse;
 import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 
 @Service
@@ -30,6 +28,7 @@ public class KoktelSastojakService implements IKoktelSastojakService{
     public List<KoktelSastojak> getAllKoktelSastojaks() {
         return koktelSastojakRepository.findAll();
     }
+
 
     @Override
     public KoktelSastojak addNewKoktelSastojak(KoktelSastojak koktelSastojak) {

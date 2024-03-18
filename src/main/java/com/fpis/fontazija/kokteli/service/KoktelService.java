@@ -14,6 +14,7 @@ import com.fpis.fontazija.kokteli.dto.KoktelCreationRequest;
 import com.fpis.fontazija.kokteli.specification.KoktelSpecifications;
 import com.fpis.fontazija.kokteli.validators.ObjectsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +31,8 @@ public class KoktelService implements IKoktelService{
 
    private final KategorijaRepository kategorijaRepository;
    private final ObjectsValidator<KoktelCreationRequest> validator;
-   private final String FOLDER_PATH = "C:\\Users\\Nikola\\Desktop\\Master\\fpis\\media\\";
+   @Value("${folder.path}")
+   private String FOLDER_PATH;
 
    private final KoktelMapper koktelMapper;
 
@@ -58,53 +60,25 @@ public class KoktelService implements IKoktelService{
     @Override
     public String addNewKoktelCasaKoktelSastojciSastojci(KoktelCreationRequest koktelCreationRequest) {
 
+       // Validations
         validator.validate(koktelCreationRequest);
-
-        if (koktelRepository.existsByNaziv(koktelCreationRequest.getKoktel().getNaziv())) {
+        if (koktelRepository.existsByNaziv(koktelCreationRequest.getKoktel().getNaziv()))
             throw new ObjectNotValidException(Set.of("Name of the Cocktail already exists in the database."));
-        }
-
         Kategorija kategorija = kategorijaRepository.findIdByNazivKategorije(koktelCreationRequest.getKoktel().getKategorija().getNazivKategorije());
-
-        if (kategorija == null){
+        if (kategorija == null)
             throw new ObjectNotValidException(Set.of("Name of the Kategorija must exists in the database"));
-        }
 
-        Koktel koktel = koktelCreationRequest.getKoktel();
+        // Mapping Dto to Koktel entity
+        Koktel koktel = koktelMapper.toKoktelEntity(koktelCreationRequest);
         koktel.setKategorija(kategorija);
-
-        if (koktelCreationRequest.getBase64Image() != null){
-
-            String fullImage = koktelCreationRequest.getBase64Image();
-            String base64 = fullImage.substring(fullImage.indexOf(",") + 1);
-            String type = fullImage.substring(fullImage.indexOf("/") + 1, fullImage.indexOf(";"));
-
-            if ( !type.equals("png") && !type.equals("jpeg") && !type.equals("gif")){
-                throw new ObjectNotValidException(Set.of("Provided file is not an image."));
-            }
-
-            byte[] decodedBytes = Base64.getDecoder().decode(base64);
-
-            MultipartFile image = new CustomMultipartFile(decodedBytes);
-            String FILE_PATH = FOLDER_PATH + UUID.randomUUID().toString() + "." + type;
-
-            koktel.getCasa().setSlika(FILE_PATH);
-
-            try {
-                image.transferTo(new File(FILE_PATH));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         addNewKoktel(koktel);
+
+        // Saving KoktelSastojak and Sastojak entities
         List<Sastojak> sastojaks = koktelCreationRequest.getSastojci();
         List<KoktelSastojak> koktelSastojaks = koktelCreationRequest.getKoktelSastojaks();
-
         for(int i = 0; i < sastojaks.size(); i++){
             KoktelSastojak koktelSastojak = koktelSastojaks.get(i);
             koktelSastojak.setKoktel(koktel);
-
             Sastojak existingSastojak = sastojakRepository.findByNaziv(sastojaks.get(i).getNaziv());
             if (existingSastojak != null ){
                 koktelSastojak.setSastojak(existingSastojak);
@@ -120,7 +94,6 @@ public class KoktelService implements IKoktelService{
 
     @Override
     public List<KoktelsListResponse> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
-
        return koktelMapper.toKoktelListResponsesDto(
                 koktelRepository.findAll(
                         new KoktelSpecifications(
@@ -130,5 +103,9 @@ public class KoktelService implements IKoktelService{
                         )));
     }
 
+    @Override
+    public List<KoktelsListResponse> getAllKoktelsList() {
+        return koktelMapper.toKoktelListResponsesDto(getAllKoktels());
+    }
 
 }
