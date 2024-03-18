@@ -1,4 +1,4 @@
-package com.fpis.fontazija.kokteli.rest;
+package com.fpis.fontazija.kokteli.controller;
 
 
 import com.fpis.fontazija.kokteli.dto.KoktelCreationRequest;
@@ -8,15 +8,11 @@ import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
 import com.fpis.fontazija.kokteli.service.KoktelSastojakService;
 import com.fpis.fontazija.kokteli.service.KoktelService;
 import com.fpis.fontazija.kokteli.service.SastojakService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -60,8 +56,8 @@ public class KoktelController {
     @PostMapping("/koktels-filtered")
     public ResponseEntity<List<KoktelsListResponse>> getKoktelsFiltered(@RequestBody KoktelFilterRequest koktelFilterRequest) {
         // TODO: fix query from method below for better data retrivial from the database
-//        List<Object[]> arr = koktelService.getKoktelsByFilters(koktelFilterRequest);
-        List<KoktelsListResponse> arr = koktelSastojakService.getKoktelsByFilters(koktelFilterRequest);
+        List<KoktelsListResponse> arr = koktelService.getKoktelsByFilters(koktelFilterRequest);
+//        List<KoktelsListResponse> arr = koktelSastojakService.getKoktelsByFilters(koktelFilterRequest);
         return new ResponseEntity<>(arr, HttpStatus.OK);
     }
 

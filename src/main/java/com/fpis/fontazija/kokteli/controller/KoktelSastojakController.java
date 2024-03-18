@@ -1,4 +1,4 @@
-package com.fpis.fontazija.kokteli.rest;
+package com.fpis.fontazija.kokteli.controller;
 
 import com.fpis.fontazija.kokteli.entity.KoktelSastojak;
 import com.fpis.fontazija.kokteli.repository.KoktelSastojakRepository;

@@ -1,6 +1,5 @@
-package com.fpis.fontazija.kokteli.rest;
+package com.fpis.fontazija.kokteli.controller;
 
-import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
 import com.fpis.fontazija.kokteli.entity.Kategorija;
 import com.fpis.fontazija.kokteli.service.KategorijaService;
 import org.springframework.http.HttpStatus;

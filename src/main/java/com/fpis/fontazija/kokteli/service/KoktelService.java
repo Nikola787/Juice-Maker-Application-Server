@@ -5,6 +5,7 @@ import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
 import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
 import com.fpis.fontazija.kokteli.entity.*;
 import com.fpis.fontazija.kokteli.exceptions.ObjectNotValidException;
+import com.fpis.fontazija.kokteli.mapper.Koktel.KoktelMapper;
 import com.fpis.fontazija.kokteli.repository.KategorijaRepository;
 import com.fpis.fontazija.kokteli.repository.KoktelRepository;
 import com.fpis.fontazija.kokteli.repository.KoktelSastojakRepository;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class KoktelService implements IKoktelService{
@@ -32,13 +32,16 @@ public class KoktelService implements IKoktelService{
    private final ObjectsValidator<KoktelCreationRequest> validator;
    private final String FOLDER_PATH = "C:\\Users\\Nikola\\Desktop\\Master\\fpis\\media\\";
 
+   private final KoktelMapper koktelMapper;
+
    @Autowired
-   public KoktelService(KoktelRepository theKoktelRepository, SastojakRepository sastojakRepository, KoktelSastojakRepository koktelSastojakRepository, KategorijaRepository kategorijaRepository, ObjectsValidator validator){
+   public KoktelService(KoktelRepository theKoktelRepository, SastojakRepository sastojakRepository, KoktelSastojakRepository koktelSastojakRepository, KategorijaRepository kategorijaRepository, ObjectsValidator validator, KoktelMapper koktelMapper){
        this.koktelRepository = theKoktelRepository;
        this.sastojakRepository = sastojakRepository;
        this.koktelSastojakRepository = koktelSastojakRepository;
        this.kategorijaRepository = kategorijaRepository;
        this.validator = validator;
+       this.koktelMapper = koktelMapper;
    }
 
 
@@ -114,16 +117,17 @@ public class KoktelService implements IKoktelService{
         return "Successfully saved entities!";
     }
 
-//    KoktelSpecifications specifications = new KoktelSpecifications(
-//            new ArrayList<>(koktelFilterRequest.getKategorije()),
-//            new ArrayList<>(koktelFilterRequest.getSastojci()),
-//            koktelFilterRequest.getSearch()
-//    );
 
     @Override
-    public List<Object[]> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
-        List<Object[]> lista = koktelRepository.findKoktelsWithFilters(koktelFilterRequest.getSastojci(), koktelFilterRequest.getKategorije(), koktelFilterRequest.getSearch());
-        return lista;
+    public List<KoktelsListResponse> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
+
+       return koktelMapper.toKoktelListResponsesDto(
+                koktelRepository.findAll(
+                        new KoktelSpecifications(
+                                koktelFilterRequest.getKategorije(),
+                                koktelFilterRequest.getSastojci(),
+                                koktelFilterRequest.getSearch()
+                        )));
     }
 
 

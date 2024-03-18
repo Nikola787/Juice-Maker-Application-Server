@@ -1,24 +1,23 @@
 package com.fpis.fontazija.kokteli.specification;
 
-import com.fpis.fontazija.kokteli.entity.Kategorija;
-import com.fpis.fontazija.kokteli.entity.Koktel;
-import com.fpis.fontazija.kokteli.entity.KoktelSastojak;
+import com.fpis.fontazija.kokteli.entity.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class KoktelSpecifications implements Specification<Koktel> {
 
-    private List<String> categoryArray;
-    private List<String> ingredientArray;
-    private String startingStringArray;
+    private Set<String> categoryArray;
+    private Set<String> ingredientArray;
+    private String startingString;
 
-    public KoktelSpecifications(List<String> categoryArray, List<String> ingredientArray, String startingStringArray) {
+    public KoktelSpecifications(Set<String> categoryArray, Set<String> ingredientArray, String startingString) {
         this.categoryArray = categoryArray;
         this.ingredientArray = ingredientArray;
-        this.startingStringArray = startingStringArray;
+        this.startingString = startingString;
     }
 
     @Override
@@ -33,30 +32,39 @@ public class KoktelSpecifications implements Specification<Koktel> {
 
     @Override
     public Predicate toPredicate(Root<Koktel> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        List<Predicate> predicates = new ArrayList<>();
 
-        Join<Koktel, Kategorija> joinKategorija = root.join("kategorija");
-        // Category condition
-        if (categoryArray != null && !categoryArray.isEmpty()) {
-            predicates.add(joinKategorija.get("nazivKategorije").in(categoryArray));
+        Join<Koktel, Kategorija> kategorijaJoin = root.join("kategorija");
+        Join<Koktel, Casa> casaJoin = root.join("casa");
+        Join<Koktel, KoktelSastojak> koktelSastojakJoin = root.join("sastojci");
+        Join<KoktelSastojak, Sastojak> sastojakJoin = koktelSastojakJoin.join("sastojak");
+
+        Predicate categoryPredicate = kategorijaJoin.get("nazivKategorije").in(categoryArray);
+        Predicate ingredientPredicate = sastojakJoin.get("naziv").in(ingredientArray);
+        Predicate startingStringPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("naziv")), startingString.toLowerCase() + "%");
+
+        query.groupBy(root.get("id"));
+
+        query.orderBy(criteriaBuilder.desc(
+                criteriaBuilder.countDistinct(sastojakJoin.get("id")))
+        );
+
+        if ( categoryArray == null || categoryArray.isEmpty()){
+            if ( ingredientArray == null || ingredientArray.isEmpty()){
+                return criteriaBuilder.and(startingStringPredicate);
+            }
         }
 
-        Join<Koktel, KoktelSastojak> joinSastojak = root.join("sastojci");
-        // Ingredient condition
-        if (ingredientArray != null && !ingredientArray.isEmpty()) {
-            predicates.add(joinSastojak.get("sastojak").get("naziv").in(ingredientArray));
+        if ( categoryArray == null || categoryArray.isEmpty()){
+            if ( ingredientArray != null && !ingredientArray.isEmpty()){
+                return criteriaBuilder.and(ingredientPredicate, startingStringPredicate);
+            }
         }
 
-        // Starting string condition
-        if (startingStringArray != null && !startingStringArray.isEmpty()) {
-            predicates.add(criteriaBuilder.like(root.get("naziv"), startingStringArray + "%"));
+        if ( categoryArray != null && !categoryArray.isEmpty()){
+            if ( ingredientArray == null || ingredientArray.isEmpty()){
+                return criteriaBuilder.and(categoryPredicate, startingStringPredicate);
+            }
         }
-
-        query.groupBy(root.get("id"), root.get("naziv"), root.get("kategorija").get("nazivKategorije"),
-                root.get("casa").get("slika"), root.get("casa").get("naziv"));
-
-        query.orderBy(criteriaBuilder.asc(criteriaBuilder.countDistinct(root.get("sastojci"))));
-
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        return criteriaBuilder.and(categoryPredicate, ingredientPredicate, startingStringPredicate);
     }
 }
