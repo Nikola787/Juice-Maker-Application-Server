@@ -40,10 +40,6 @@ public class KoktelSastojakService implements IKoktelSastojakService{
         return koktelSastojakRepository.findById_KoktelId(koktelId);
     }
 
-    @Override
-    public List<KoktelsListResponse> getAllKoktelsList() {
-        return koktelSastojakMapper.toKoktelListResponsesDto(getAllKoktelSastojaks());
-    }
 
     @Override
     public KoktelDetailsResponse findKoktelsById(int koktelId) {

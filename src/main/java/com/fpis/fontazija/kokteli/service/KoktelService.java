@@ -1,8 +1,8 @@
 package com.fpis.fontazija.kokteli.service;
 
-import com.fpis.fontazija.kokteli.conversion.CustomMultipartFile;
 import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
 import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
+import com.fpis.fontazija.kokteli.dto.PaginatedKoktelListResponse;
 import com.fpis.fontazija.kokteli.entity.*;
 import com.fpis.fontazija.kokteli.exceptions.ObjectNotValidException;
 import com.fpis.fontazija.kokteli.mapper.Koktel.KoktelMapper;
@@ -15,11 +15,10 @@ import com.fpis.fontazija.kokteli.specification.KoktelSpecifications;
 import com.fpis.fontazija.kokteli.validators.ObjectsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -93,19 +92,19 @@ public class KoktelService implements IKoktelService{
 
 
     @Override
-    public List<KoktelsListResponse> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
-       return koktelMapper.toKoktelListResponsesDto(
-                koktelRepository.findAll(
-                        new KoktelSpecifications(
-                                koktelFilterRequest.getKategorije(),
-                                koktelFilterRequest.getSastojci(),
-                                koktelFilterRequest.getSearch()
-                        )));
-    }
-
-    @Override
-    public List<KoktelsListResponse> getAllKoktelsList() {
-        return koktelMapper.toKoktelListResponsesDto(getAllKoktels());
+    public PaginatedKoktelListResponse getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest) {
+       Page<Koktel> page = koktelRepository.findAll(
+               new KoktelSpecifications(
+                              koktelFilterRequest.getKategorije(),
+                              koktelFilterRequest.getSastojci(),
+                              koktelFilterRequest.getSearch()
+                      ),
+               PageRequest.of(koktelFilterRequest.getOffset(), koktelFilterRequest.getPageSize()));
+       List<Koktel> koktels = page.getContent();
+       int totalPages = page.getTotalPages();
+       List<KoktelsListResponse> koktelsListResponses = koktelMapper.toKoktelListResponsesDto(koktels);
+       PaginatedKoktelListResponse paginatedKoktelListResponse = new PaginatedKoktelListResponse(koktelsListResponses, totalPages);
+       return paginatedKoktelListResponse;
     }
 
 }

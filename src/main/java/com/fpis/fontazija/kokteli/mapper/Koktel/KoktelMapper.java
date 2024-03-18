@@ -27,7 +27,6 @@ public class KoktelMapper {
             KoktelsListResponse koktelsListResponse = new KoktelsListResponse();
             koktelsListResponse.setIdKoktela(k.getId());
             koktelsListResponse.setNazivCase(k.getCasa().getNaziv());
-            koktelsListResponse.setSastojci(new ArrayList<>(){});
             koktelsListResponse.setNazivKategorije(k.getKategorija().getNazivKategorije());
             koktelsListResponse.setNazivKoktela(k.getNaziv());
 

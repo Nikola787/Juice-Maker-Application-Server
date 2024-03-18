@@ -12,11 +12,7 @@ public class KoktelsListResponse {
     private String nazivKategorije;
     private byte[] slikaCase;
     private String nazivCase;
-    private List<List<String>> sastojci;
 
-    public KoktelsListResponse(){
-        this.sastojci = new ArrayList<>();
-    }
 
     public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, byte[] slikaCase, String nazivCase) {
         this.idKoktela = idKoktela;
@@ -24,21 +20,12 @@ public class KoktelsListResponse {
         this.nazivKategorije = nazivKategorije;
         this.slikaCase = slikaCase;
         this.nazivCase = nazivCase;
-        this.sastojci = new ArrayList<>();
     }
 
-    public KoktelsListResponse(int idKoktela, String nazivKoktela, String nazivKategorije, byte[] slikaCase, String nazivCase, List<List<String>> sastojci) {
-        this.idKoktela = idKoktela;
-        this.nazivKoktela = nazivKoktela;
-        this.nazivKategorije = nazivKategorije;
-        this.slikaCase = slikaCase;
-        this.nazivCase = nazivCase;
-        this.sastojci = sastojci;
+    public KoktelsListResponse() {
+
     }
 
-    public void addSastojak(String naziv, String kolicina, String mernaJedinica){
-        this.sastojci.add(List.of(naziv, kolicina, mernaJedinica));
-    }
 
     public String getNazivKoktela() {
         return nazivKoktela;
@@ -54,10 +41,6 @@ public class KoktelsListResponse {
 
     public String getNazivCase() {
         return nazivCase;
-    }
-
-    public List<List<String>> getSastojci() {
-        return sastojci;
     }
 
     public int getIdKoktela() {
@@ -84,7 +67,4 @@ public class KoktelsListResponse {
         this.nazivCase = nazivCase;
     }
 
-    public void setSastojci(List<List<String>> sastojci) {
-        this.sastojci = sastojci;
-    }
 }

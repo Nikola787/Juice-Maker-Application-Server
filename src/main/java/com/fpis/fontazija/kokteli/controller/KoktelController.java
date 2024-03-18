@@ -1,17 +1,17 @@
 package com.fpis.fontazija.kokteli.controller;
 
 
-import com.fpis.fontazija.kokteli.dto.KoktelCreationRequest;
-import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
-import com.fpis.fontazija.kokteli.dto.KoktelDetailsResponse;
-import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
+import com.fpis.fontazija.kokteli.dto.*;
+import com.fpis.fontazija.kokteli.entity.Koktel;
 import com.fpis.fontazija.kokteli.service.KoktelSastojakService;
 import com.fpis.fontazija.kokteli.service.KoktelService;
 import com.fpis.fontazija.kokteli.service.SastojakService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 @RestController
@@ -36,13 +36,6 @@ public class KoktelController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/koktels-list")
-    public ResponseEntity<List<KoktelsListResponse>> getKoktelsList() {
-        return new ResponseEntity<>(
-                koktelSastojakService.getAllKoktelsList(),
-                HttpStatus.OK);
-    }
-
     @PostMapping("/add/new-koktel")
     public ResponseEntity<String> addNewKoktel(@RequestBody KoktelCreationRequest koktelCreationRequest) {
         return new ResponseEntity<>(
@@ -51,12 +44,10 @@ public class KoktelController {
     }
 
     @PostMapping("/koktels-filtered")
-    public ResponseEntity<List<KoktelsListResponse>> getKoktelsFiltered(@RequestBody KoktelFilterRequest koktelFilterRequest) {
+    public ResponseEntity<PaginatedKoktelListResponse> getKoktelsFiltered(@RequestBody KoktelFilterRequest koktelFilterRequest) {
+        PaginatedKoktelListResponse koktelsListResponses = koktelService.getKoktelsByFilters(koktelFilterRequest);
         return new ResponseEntity<>(
-                koktelService.getKoktelsByFilters(koktelFilterRequest),
+                koktelsListResponses,
                 HttpStatus.OK);
     }
-
-
-
 }

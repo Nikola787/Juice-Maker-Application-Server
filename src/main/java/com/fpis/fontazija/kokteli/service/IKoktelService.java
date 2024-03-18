@@ -2,6 +2,7 @@ package com.fpis.fontazija.kokteli.service;
 
 import com.fpis.fontazija.kokteli.dto.KoktelFilterRequest;
 import com.fpis.fontazija.kokteli.dto.KoktelsListResponse;
+import com.fpis.fontazija.kokteli.dto.PaginatedKoktelListResponse;
 import com.fpis.fontazija.kokteli.entity.Koktel;
 import com.fpis.fontazija.kokteli.dto.KoktelCreationRequest;
 
@@ -15,7 +16,7 @@ public interface IKoktelService {
 
     String addNewKoktelCasaKoktelSastojciSastojci(KoktelCreationRequest koktelCreationRequest);
 
-    List<KoktelsListResponse> getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest);
 
-    List<KoktelsListResponse> getAllKoktelsList();
+    PaginatedKoktelListResponse getKoktelsByFilters(KoktelFilterRequest koktelFilterRequest);
+
 }

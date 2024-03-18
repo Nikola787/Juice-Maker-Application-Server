@@ -16,7 +16,5 @@ public interface IKoktelSastojakService {
 
     List<KoktelSastojak> findById(int koktelId);
 
-    List<KoktelsListResponse> getAllKoktelsList();
-
     KoktelDetailsResponse findKoktelsById(int koktelId);
 }

@@ -7,11 +7,15 @@ public class KoktelFilterRequest {
     String search;
     Set<String> kategorije;
     Set<String> sastojci;
+    int offset;
+    int pageSize;
 
-    public KoktelFilterRequest(String search, Set<String> kategorije, Set<String> sastojci) {
+    public KoktelFilterRequest(String search, Set<String> kategorije, Set<String> sastojci, int offset, int pageSize) {
         this.search = search;
         this.kategorije = kategorije;
         this.sastojci = sastojci;
+        this.offset = offset;
+        this.pageSize = pageSize;
     }
 
     public String getSearch() {
@@ -36,5 +40,21 @@ public class KoktelFilterRequest {
 
     public void setSastojci(Set<String> sastojci) {
         this.sastojci = sastojci;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }
