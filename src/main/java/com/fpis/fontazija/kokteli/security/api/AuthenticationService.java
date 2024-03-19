@@ -1,11 +1,13 @@
 package com.fpis.fontazija.kokteli.security.api;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 public class AuthenticationService {
+
     private static final String AUTH_TOKEN_HEADER_NAME = "api_key";
     private static final String AUTH_TOKEN = "abcdef1234567890";
 

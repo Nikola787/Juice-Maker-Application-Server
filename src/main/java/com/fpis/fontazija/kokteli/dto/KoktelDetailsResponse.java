@@ -6,7 +6,6 @@ import java.util.List;
 public class KoktelDetailsResponse {
 
     private int koktelId;
-    // - na osnovu Id koktela GET koktel(nacinPripreme), niz(sastojci), niz(koktelSastojak(kolicina,mernaJedinica))
     private String naziv;
     private String opis;
     private String nacinPripreme;

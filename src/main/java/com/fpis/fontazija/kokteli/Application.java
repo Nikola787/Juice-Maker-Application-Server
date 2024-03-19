@@ -15,18 +15,4 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(){
-		return runner -> {
-//			createKoktel(appDAO);
-//			findKoktel(appDAO);
-//			deleteKoktel(appDAO);
-//			createCasaWithKoktels(appDAO);
-//			createKategorijaWithKoktels(appDAO);
-//			createKoktelAndSastojci(appDAO);
-
-		};
-	}
-
-
 }

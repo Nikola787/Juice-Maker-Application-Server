@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @Component
 public class ObjectsValidator<T> {
 
-    // design pattern factory - ISTRAZI
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
 
