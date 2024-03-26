@@ -13,7 +13,7 @@
 - **Best practices**: Followed best practices by implementing various design patterns and making clean code.
 
 
-
+![image](https://github.com/Nikola787/Juice-Maker-Application-Server/assets/63933389/2a13b6c7-b92d-49a9-b4a3-c375c3705c2b)
 ![landingPage](https://github.com/Nikola787/Juice-Maker-Application-Server/assets/63933389/e15aa891-90e8-4c5f-b18a-c9705bdf8b85)
 ![filtersFunctionality](https://github.com/Nikola787/Juice-Maker-Application-Server/assets/63933389/96a43ad8-a4c1-47ea-bfa0-894a4ac2ba06)
 ![detailsFunctionality](https://github.com/Nikola787/Juice-Maker-Application-Server/assets/63933389/2ae02790-e7b9-4032-a335-802b98bb80cf)
